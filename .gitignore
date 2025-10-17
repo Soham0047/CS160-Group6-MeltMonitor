@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -138,7 +137,6 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-=======
 # Dependencies
 node_modules/
 */node_modules/
@@ -170,4 +168,3 @@ temp/
 
 # API keys and secrets
 config/secrets.js
->>>>>>> c0ecb2f (Initial commit: Project structure setup)
