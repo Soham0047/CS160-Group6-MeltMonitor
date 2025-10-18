@@ -1,82 +1,94 @@
 # MeltMonitor 🌎📊
 
-A lightweight, open, web-based dashboard that helps students, teachers, and community groups explore climate indicators (CO₂, temperature, glacier mass) with clear visuals and verified sources.
+A lightweight, open, web-based dashboard that lets students, teachers, and community groups explore climate indicators (CO₂, temperature, glacier mass) with clear visuals and verified sources.
 
 > **Project status**
 >
-> - **main** – Starter dashboard: TopBar, KPI tiles, simple charts, map placeholder, routes, and a clean MUI theme.
-> - **feat/map-page** – Active branch for the **real Map** (Leaflet + OSM). **Not merged yet** so others can safely branch from main.
+> - **`main`**: ships the **starter dashboard** — TopBar, KPI tiles, simple charts, map placeholder, routes, and a clean MUI theme.
+> - **`feat/map-page`**: active branch for the **real Map** (Leaflet + OSM). Not merged yet by design so others can work on different features from `main`.
 
-## Tech Stack
+---
+
+## Tech stack
 
 - **React + Vite** (fast dev server & build)
 - **MUI** (Material UI) for components & theming
-- **MUI X Charts** for lightweight charts
+- **MUI X Charts** for simple, lightweight charts
 - **React Router** for routing
-- **(Map branch)** react-leaflet + leaflet for the map
+- **(Map branch)** `react-leaflet` + `leaflet` for the map
 - **Tailwind (optional utilities)** — see Tailwind note below
 
-## Repo Layout
+---
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  client/                   # React app    src/      App.jsx      main.jsx      index.css      components/        Navigation/TopBar.jsx        Dashboard/          DashboardPage.jsx          KpiCard.jsx          WorldMapPlaceholder.jsx        Charts/          SparkLine.jsx          BarMini.jsx      pages/        MapPage.jsx         # on feat/map-page only      hooks/        useDashboardData.jsx      services/        dashboard.js        dataClient.js    index.html    package.json  README.md  `
+## Repo layout
 
-> Map work stays in feat/map-page. Everyone else should branch off main.
+`client/                   # React app   src/     App.jsx     main.jsx     index.css     components/       Navigation/TopBar.jsx       Dashboard/         DashboardPage.jsx         KpiCard.jsx         WorldMapPlaceholder.jsx       Charts/         SparkLine.jsx         BarMini.jsx     pages/       MapPage.jsx         # on feat/map-page only     hooks/       useDashboardData.jsx     services/       dashboard.js       dataClient.js   index.html   package.json README.md`
 
-## Getting Started (Local Dev)
+> We keep map work isolated in `feat/map-page`. Everyone else should branch off `main` for their features.
+
+---
+
+## Getting started (local dev)
 
 **Prereqs**
 
-- Node.js 20+ (node -v)
-- npm (npm -v)
+- Node.js 20+ (`node -v`)
+- npm (`npm -v`)
 - Git
 
-**Install & Run**
+**Install & run**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  git clone https://github.com/Soham0047/CS160-Group6-MeltMonitor.git  cd CS160-Group6-MeltMonitor/client  npm install  npm run dev  `
+`git clone https://github.com/Soham0047/CS160-Group6-MeltMonitor.git cd CS160-Group6-MeltMonitor/client npm install npm run dev`
 
-Vite prints a local URL (e.g., http://localhost:5173). If that port is busy, it will use another (e.g., 5174).
+Vite will print a local URL (e.g., `http://localhost:5173`). If the port is taken, it auto-picks another (e.g., `5174`).
 
-**Common Scripts**
+**Common scripts**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  npm run dev       # start local dev server  npm run build     # production build -> dist/  npm run preview   # preview built app  `
+`npm run dev       # start local dev server npm run build     # production build -> dist/ npm run preview   # preview built app`
 
-## Tailwind Note (Only If You Use It)
+---
 
-We rely on MUI for most UI. Tailwind utilities are optional.
+## Tailwind note (only if you use Tailwind utilities)
 
-**If using Tailwind v4**
+We use MUI for most UI, but Tailwind is allowed for small utility spacing if you like. You may be on **Tailwind v4** (new plugin) or **v3** (classic). Either is fine; be consistent.
 
-- client/postcss.config.js
+**If Tailwind v4**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  export default { plugins: { '@tailwindcss/postcss': {} } }  `
+- `client/postcss.config.js`
 
-- client/src/index.css
+`export default { plugins: { '@tailwindcss/postcss': {} } }`
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  @tailwind base;  @tailwind components;  @tailwind utilities;  `
+- `client/src/index.css`
 
-- Ensure import './index.css' exists at the top of src/main.jsx.
+`@tailwind base; @tailwind components; @tailwind utilities;`
 
-**If using Tailwind v3**
+- Ensure `import './index.css'` exists at the top of `src/main.jsx`.
 
-- postcss.config.cjs
+**If Tailwind v3**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  module.exports = { plugins: { tailwindcss: {}, autoprefixer: {} } }  `
+- `postcss.config.cjs`
 
-- tailwind.config.cjs
+`module.exports = { plugins: { tailwindcss: {}, autoprefixer: {} } }`
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  module.exports = {    content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],    theme: { extend: {} },    plugins: []  }  `
+- `tailwind.config.cjs`
 
-## Environment Variables
+`module.exports = {   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],   theme: { extend: {} }, plugins: [] }`
 
-Create client/.env (do **not** commit it):
+---
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  VITE_API_BASE=https://api.example.com  `
+## Environment variables
 
-Add more keys as we wire real APIs. Keep client/.env.example up to date.
+Create `client/.env` (do **not** commit it):
 
-## What’s Already Built (on main)
+`VITE_API_BASE=https://api.example.com`
 
-- **TopBar** with routes: /, /map, /sources
+Add new keys as we wire real APIs. Keep `client/.env.example` up-to-date.
+
+---
+
+## What’s already built (on `main`)
+
+- **TopBar** with routes: `/`, `/map`, `/sources`
 - **Dashboard** page:
 
   - KPI cards (CO₂, Temp with °C/°F toggle, Glacier Index)
@@ -86,98 +98,114 @@ Add more keys as we wire real APIs. Keep client/.env.example up to date.
 
 - **Theme** with light/dark mode toggle (via context)
 
-Key files:
+Open files:
 
-- src/components/Navigation/TopBar.jsx
-- src/components/Dashboard/DashboardPage.jsx
-- src/components/Charts/\*
-- src/main.jsx (theme + router + dark mode)
+- `src/components/Navigation/TopBar.jsx`
+- `src/components/Dashboard/DashboardPage.jsx`
+- `src/components/Charts/*`
+- `src/main.jsx` (theme + router + dark mode)
 
-## Working on a Feature (Branching Guide)
+---
 
-1.  git checkout maingit pull
-2.  git checkout -b feat/\# e.g., feat/unit-toggle, feat/sources-links, feat/ci
-3.  git add .git commit -m "feat(unit-toggle): add °C/°F toggle to temperature card"git push -u origin feat/unit-toggle
-4.  **Open a Pull Request** into main (keep PRs small and focused).
+## How to work on a feature (branching guide)
 
-> **Map work continues on feat/map-page**. Please do not merge that branch yet; open separate feature branches from main for unrelated work.
+1.  **Sync `main`**
 
-## If You’re Working on the Map (only on feat/map-page)
+`git checkout main git pull`
 
-**Install**
+2.  **Create your feature branch**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  cd client  npm i react-leaflet leaflet  `
+`git checkout -b feat/<short-name> # example: feat/unit-toggle, feat/sources-links, feat/ci`
 
-**Leaflet CSS** (in client/index.html )
+3.  **Code → commit → push**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML
+`git add . git commit -m "feat(unit-toggle): add °C/°F toggle to temperature card" git push -u origin feat/unit-toggle`
 
-`href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="    crossorigin="" />`
+4.  **Open a Pull Request** into `main`  
+    Keep PRs small and focused (≤ ~300 lines if possible).
+
+> **Map work continues on `feat/map-page`**. Please do not merge that branch yet; open separate feature branches from `main` for unrelated work.
+
+---
+
+## If you’re working on the map (only on `feat/map-page`)
+
+**Deps**
+
+`cd client npm i react-leaflet leaflet`
+
+**Leaflet CSS** (in `client/index.html` `<head>`)
+
+`<link rel="stylesheet"   href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="   crossorigin="" />`
 
 **Files**
 
-- src/pages/MapPage.jsx
-- src/components/Map/WorldMap.jsx
+- `src/pages/MapPage.jsx`
+- `src/components/Map/WorldMap.jsx`
 
 **Run**
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  npm run dev  # go to /map  `
+`npm run dev # go to /map`
 
-**Do not merge** this branch yet. We’ll PR when it’s ready.
+**Do not merge** this branch yet. We’ll open a PR when it’s ready for review.
 
-## Coding Standards
+---
 
-- **Components:** small & focused; layout in pages, data/logic in hooks/services
-- **Styling:** prefer MUI props/styles; Tailwind only for quick utilities
-- **Accessibility:** visible keyboard focus; aria-label on icon-only buttons
-- **Performance:** memoize static arrays; avoid re-creating large data each render
-- **Security basics (front-end):** no secrets in code; avoid localStorage for auth tokens (when we add auth)
+## Coding standards
 
-## Backlog Alignment (Sprint 1 targets on main)
+- **Components**: small, focused; keep layout in pages, logic in hooks/services.
+- **Styling**: use MUI props/styling; Tailwind only for quick utilities.
+- **Accessibility**: keyboard focus visible; aria-labels on icon buttons.
+- **Performance**: memoize static arrays; avoid re-creating large data on each render.
+- **Security basics** (front-end): no secrets in code; don’t use localStorage for auth tokens (when we add auth).
+
+---
+
+## Backlog alignment (Sprint-1 targets already in `main`)
 
 - Top nav, Dashboard shell, °C/°F toggle ✅
-- Source links ✅
-- Data/service stubs ready to swap in real APIs ✅
-- CI/lint/test — add as we go
+- Source links area ✅
+- Data/service stubs (ready to swap in real APIs) ✅
+- CI/lint/test — add as you go (see below)
 
-## Lint, Tests, CI (Add as Needed)
+---
 
-Install:
+## Lint, tests, CI (add as needed)
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  npm i -D eslint prettier eslint-config-prettier vitest jsdom @testing-library/react @testing-library/jest-dom  `
+You can add these if not already present:
 
-Sample scripts (add to client/package.json):
+`npm i -D eslint prettier eslint-config-prettier vitest jsdom @testing-library/react @testing-library/jest-dom`
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  {    "scripts": {      "dev": "vite",      "build": "vite build",      "preview": "vite preview",      "lint": "eslint . --ext .js,.jsx",      "test": "vitest run",      "test:ui": "vitest"    }  }  `
+Sample scripts:
+
+`"scripts": {   "dev": "vite",   "build": "vite build",   "preview": "vite preview",   "lint": "eslint . --ext .js,.jsx",   "test": "vitest run",   "test:ui": "vitest" }`
+
+---
 
 ## Troubleshooting
 
 - **Blank screen** → check DevTools Console:
 
   - Missing import / wrong path or filename **case**
-  - Running in the wrong folder (client/ is the app)
+  - Not running in `client/` folder
   - Tailwind v4 vs v3 PostCSS plugin mismatch (see Tailwind note)
 
-- **Port already in use** → Vite auto-picks a new one; check terminal output.
+- **Port already in use** → Vite auto-picks a new one; check the terminal output.
 
-## Contributing Workflow (Short Version)
+---
 
-1.  Branch off main
-2.  Make small, reviewable commits
-3.  Open PR → request review
-4.  Address comments → merge (squash)
-5.  Delete the feature branch
+## Contributing workflow (short version)
 
-> **Rule:** keep main always buildable.
+1.  Branch off `main`.
+2.  Make small, reviewable commits.
+3.  Open PR → request review.
+4.  Address comments → merge squash.
+5.  Delete the feature branch.
+
+> **Rule:** keep `main` always buildable.
+
+---
 
 ## License
 
 Academic/educational use for SJSU CS160. (Add a LICENSE file if required.)
-
-### How to Add This README to main (now)
-
-You’re on the map branch. To update main:
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`  git checkout main  git pull  # create/overwrite README.md with this content (paste in VS Code, save)  git add README.md  git commit -m "docs: add project README with setup, workflow, and map branch notes"  git push  `
-
-Teammates can now git pull on main and start working on features immediately.
