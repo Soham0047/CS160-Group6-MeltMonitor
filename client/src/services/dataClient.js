@@ -8,9 +8,3 @@ export async function getDashboardData() {
   };
 }
 
-export async function getJSON(url) {
-  const connect = await fetch(url);
-  if (!connect.ok)
-    throw new Error("Failed to connect")
-  return await connect.json();
-}

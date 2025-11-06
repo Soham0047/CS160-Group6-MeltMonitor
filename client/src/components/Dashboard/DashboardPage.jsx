@@ -16,22 +16,33 @@ import WorldMapPlaceholder from "./WorldMapPlaceholder.jsx";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
+import { useDashboardData } from "../../hooks/useDashboardData.jsx";
 
 export default function DashboardPage() {
-  // Mock demo data for now
-  const x = useMemo(() => Array.from({ length: 24 }, (_, i) => i + 1), []);
-  const co2Series = useMemo(() => x.map((i) => 380 + Math.sin(i / 2) * 5), [x]); // ppm
-  const tempSeriesC = useMemo(
-    () => x.map((i) => 14 + Math.cos(i / 3) * 0.2),
-    [x]
-  ); // °C
-  const glacierSeries = useMemo(
-    () => x.slice(8).map((i) => Math.max(0, 100 - i * 2)),
-    [x]
-  );
-
+  const { data, loading, error } = useDashboardData();
   const [unit, setUnit] = useState("C");
-  const tempLatest = tempSeriesC.at(-1);
+
+  // Delete after finding APIs
+  if (loading || !data) {
+    return (
+      <Container maxWidth="xl" sx={{ py: 3 }}>
+        <div>Loading dashboard data...</div>
+      </Container>
+    );
+  }
+  
+  // Delete after finding APIs
+  if (error) {
+    return (
+      <Container maxWidth="xl" sx={{ py: 3 }}>
+        <div>Error: {error.message}</div>
+        <div>Check browser console for details</div>
+      </Container>
+    );
+  }
+
+  const x = Array.from({ length: data.co2Series.length }, (_, i) => i + 1);
+  const tempLatest = data.tempSeries.at(-1);
   const tempValue = unit === "C" ? tempLatest : (tempLatest * 9) / 5 + 32;
 
   return (
@@ -41,9 +52,9 @@ export default function DashboardPage() {
         <Grid item xs={12} sm={6} md={3}>
           <KpiCard
             label="CO₂ (ppm)"
-            value={co2Series.at(-1).toFixed(1)}
+            value={data.co2Series.at(-1).toFixed(1)}
             sublabel="Last updated: now"
-            delta={1.2}
+            delta={data.difference.co2}
             icon={<ShowChartIcon fontSize="small" />}
           />
         </Grid>
@@ -52,16 +63,16 @@ export default function DashboardPage() {
             label={`Global Temp (°${unit})`}
             value={tempValue.toFixed(2)}
             sublabel="7-day avg"
-            delta={-0.3}
+            delta={data.difference.temp}
             icon={<ThermostatIcon fontSize="small" />}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <KpiCard
             label="Glacier Index"
-            value={glacierSeries.at(-1)}
+            value={data.glacierIndex.at(-1)}
             sublabel="Model proxy"
-            delta={-0.8}
+            delta={data.difference.glacier}
             icon={<AcUnitIcon fontSize="small" />}
           />
         </Grid>
@@ -92,7 +103,7 @@ export default function DashboardPage() {
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               CO₂ Trend
             </Typography>
-            <SparkLine x={x} series={co2Series} />
+            <SparkLine x={x} series={data.co2Series} />
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
@@ -100,7 +111,7 @@ export default function DashboardPage() {
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Temperature
             </Typography>
-            <SparkLine x={x} series={tempSeriesC} />
+            <SparkLine x={x} series={data.tempSeries} />
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
@@ -108,7 +119,7 @@ export default function DashboardPage() {
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Glacier Index
             </Typography>
-            <BarMini x={x.slice(8)} series={glacierSeries} />
+            <BarMini x={x.slice(8)} series={data.glacierIndex} />
           </Paper>
         </Grid>
       </Grid>
