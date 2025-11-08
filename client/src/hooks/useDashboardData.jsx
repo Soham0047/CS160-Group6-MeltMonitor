@@ -15,6 +15,7 @@ export function useDashboardData() {
       .catch(setError)
       .finally(() => ok && setLoading(false));
 
+    // refresh the data fetch every 30 seconds
     const interval = setInterval(() => {
       fetchDashboard()
         .then((d) => ok && setData(d))
