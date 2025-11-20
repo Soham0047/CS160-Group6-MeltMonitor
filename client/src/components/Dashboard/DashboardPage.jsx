@@ -22,26 +22,30 @@ export default function DashboardPage() {
   const { data, loading, error } = useDashboardData();
   const [unit, setUnit] = useState("C");
 
-  // Delete after finding APIs
+  // handle when waiting for the API or when these is no current data
   if (loading || !data) {
     return (
-      <Container maxWidth="xl" sx={{ py: 3 }}>
-        <div>Loading dashboard data...</div>
+      <Container maxwidth="xl" sx={{ py: 3, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div>Dashboard data is being fetched...</div>
       </Container>
     );
   }
   
-  // Delete after finding APIs
+  // handle when there is an error during data fetch
   if (error) {
     return (
-      <Container maxWidth="xl" sx={{ py: 3 }}>
-        <div>Error: {error.message}</div>
-        <div>Check browser console for details</div>
+      <Container maxwidth="xl" sx={{ py: 3,  display: "flex", flexDirection: "column", alignitems: "center" }}>
+        <div>Error has occured, Sorry...</div>
       </Container>
     );
   }
 
   const x = Array.from({ length: data.co2Series.length }, (_, i) => i + 1);
+  // set the x axis for the co2 chart
+  const co2x = Array.from({ length: data.co2Series.length }, (_, i) => i + 1);
+  // set the x axis for the temp chart
+  const tempx = Array.from({ length: data.tempSeries.length}, (_, i) => i + 1);
+  // conversion for the unit toggle
   const tempLatest = data.tempSeries.at(-1);
   const tempValue = unit === "C" ? tempLatest : (tempLatest * 9) / 5 + 32;
 
@@ -62,7 +66,7 @@ export default function DashboardPage() {
           <KpiCard
             label={`Global Temp (°${unit})`}
             value={tempValue.toFixed(2)}
-            sublabel="7-day avg"
+            sublabel="Monthly avg"
             delta={data.difference.temp}
             icon={<ThermostatIcon fontSize="small" />}
           />
@@ -101,17 +105,17 @@ export default function DashboardPage() {
         <Grid item xs={12} md={4}>
           <Paper variant="outlined" sx={{ p: 2 }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              CO₂ Trend
+              CO₂ Trend Over Last 4 weeks
             </Typography>
-            <SparkLine x={x} series={data.co2Series} />
+            <SparkLine x={co2x} series={data.co2Series} />
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
           <Paper variant="outlined" sx={{ p: 2 }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              Temperature
+              Temperature Over Last 12 Months
             </Typography>
-            <SparkLine x={x} series={data.tempSeries} />
+            <SparkLine x={tempx} series={data.tempSeries} />
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
@@ -140,21 +144,28 @@ export default function DashboardPage() {
       <Box sx={{ mt: 2, fontSize: 14, color: "text.secondary" }}>
         Sources:{" "}
         <Link
-          href="https://gml.noaa.gov/ccgg/trends/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          NOAA
-        </Link>
-        ,{" "}
-        <Link
           href="https://data.giss.nasa.gov/gistemp/"
           target="_blank"
           rel="noreferrer"
         >
           NASA GISTEMP
         </Link>
-        . (Add exact datasets later.)
+        ,{" "}
+        <Link
+          href="https://global-warming.org/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          CLIMATE ACCOUNTABILITY API
+        </Link>
+        ,{" "}
+        <Link
+          href="https://gml.noaa.gov/ccgg/trends/gl_trend.html"
+          target="_blank"
+          rel="noreferrer"
+          >
+          NOAA GML
+        </Link>
       </Box>
     </Container>
   );

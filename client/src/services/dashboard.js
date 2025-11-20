@@ -1,42 +1,48 @@
+// fetch data for each statistic we want to display on the dashboard
 async function fetchCO2Data() {
   try {
-    const corsProxy = 'https://corsproxy.io/?';
-    const url = 'https://global-warming.org/api/co2-api';
-
-    const connection = await fetch(corsProxy + encodeURIComponent(url));
-    // const connection = await fetch('https://global-warming.org/api/co2-api');
+    const connection = await fetch('https://global-warming.org/api/co2-api');
     if (!connection.ok) {
       throw new Error('Failed data fetch');
     }
-    // fetch and sort data by last 24 entries from global-warming.org
-    const data = await response.json();
-    const last24 = data.co2.slice(-24);
-    const co2Data = last24.map(entry => parseFloat(entry.trend));
 
-    return co2Data;
+    const co2Data = await connection.json();
+
+    // fetch last 28 (4 weeks) for trend calculations
+    const latest = co2Data.co2.slice(-28);
+    const co2Series = latest.map(entry => parseFloat(entry.trend));
+
+    return co2Series;
     // throw new Error('No API');
   }
   catch (e) {
     console.error('Error: CO2 data fetch has failed');
     // in the event API fetch has failed, use mock data for filler
-    return Array.from({ length: 24 }, (_,i) =>
+    return Array.from({ length: 28 }, (_,i) =>
     420 + Math.sin((i + 1) / 2) * 3);
   }
 }
 
 async function fetchTempData() {
   try {
-    // const connection = await fetch('https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.json');
-    // if (!connection.ok) {
-    //   throw new Error('Failed data fetch');
-    // }
-    // const data = await response.json();
-    // return data;
-    throw new Error('No API');
+    const connection = await fetch('https://global-warming.org/api/temperature-api');
+    if (!connection.ok) {
+      throw new Error('Failed data fetch');
+    }
+    
+    const tempData = await connection.json();
+
+    // fetch the last 12 months for trend calculations
+    const latest = tempData.result.slice(-12);
+    // add global temp baseline to anomaly entry for celcius format
+    const tempSeries = latest.map(entry => 14 + parseFloat(entry.land));
+
+    return tempSeries;
+
   }
   catch (e) {
     console.error('Error: Temp data fetch has failed');
-    return Array.from({ length: 24 }, (_,i) =>
+    return Array.from({ length: 12 }, (_,i) =>
     14 + Math.cos((i + 1) / 3) * 0.3);
   }
 }
@@ -58,13 +64,12 @@ async function fetchGlacierData() {
   }
 }
 
-// find and note the percent change between last and latest data
+// find and note the percent change between previous and current data
 function calculateDiff(series) {
   const current = series[series.length - 1];
-  const previous = series.slice(-8, -1);
-  const prevAvg = previous.reduce((a,b) => a + b, 0) / previous.length;
+  const previous = series[series.length - 2];
 
-  const diff = ((current - prevAvg) / prevAvg) * 100;
+  const diff = ((current - previous) / previous) * 100;
   return Math.round(diff * 100) / 100;
 }
 
