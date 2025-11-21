@@ -1,61 +1,43 @@
 // src/main.jsx
-import React, { useMemo, useState, createContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 
-// Optional: keep font defaults consistent across the app
-const fontStack = `'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif`;
+console.log("🚀 main.jsx loaded - MeltMonitor starting...");
 
-// Expose a context so TopBar (or any component) can toggle color mode
-export const ColorModeContext = createContext({
-  mode: "light",
-  toggleColorMode: () => {},
+const theme = createTheme({
+  palette: {
+    mode: "light",
+    primary: { main: "#0ea5e9" },
+    secondary: { main: "#10b981" },
+  },
+  shape: { borderRadius: 12 },
+  typography: {
+    fontFamily: `'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif`,
+    h6: { fontWeight: 700 },
+    subtitle2: { fontWeight: 600 },
+  },
+  components: {
+    MuiCard: { styleOverrides: { root: { borderColor: "#e5e7eb" } } },
+    MuiPaper: { styleOverrides: { root: { borderRadius: 12 } } },
+    MuiLink: { styleOverrides: { root: { cursor: "pointer" } } },
+    MuiAppBar: { styleOverrides: { root: { borderRadius: 0 } } },
+  },
 });
 
 function Root() {
-  const [mode, setMode] = useState("light");
-
-  const colorMode = useMemo(
-    () => ({
-      mode,
-      toggleColorMode: () => setMode((m) => (m === "light" ? "dark" : "light")),
-    }),
-    [mode]
-  );
-
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-          primary: { main: "#0ea5e9" },
-          secondary: { main: "#10b981" },
-        },
-        shape: { borderRadius: 12 },
-        typography: {
-          fontFamily: fontStack,
-          h6: { fontWeight: 700 },
-          subtitle2: { fontWeight: 600 },
-        },
-        components: {
-          MuiPaper: { styleOverrides: { root: { borderRadius: 12 } } },
-        },
-      }),
-    [mode]
-  );
+  console.log("🎨 Root component rendering...");
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
@@ -64,3 +46,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Root />
   </React.StrictMode>
 );
+
+console.log("✅ main.jsx initialization complete");
