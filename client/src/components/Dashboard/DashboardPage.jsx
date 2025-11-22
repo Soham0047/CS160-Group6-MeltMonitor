@@ -40,11 +40,13 @@ export default function DashboardPage() {
     );
   }
 
-  const x = Array.from({ length: data.co2Series.length }, (_, i) => i + 1);
   // set the x axis for the co2 chart
   const co2x = Array.from({ length: data.co2Series.length }, (_, i) => i + 1);
   // set the x axis for the temp chart
   const tempx = Array.from({ length: data.tempSeries.length}, (_, i) => i + 1);
+  // set the x axis for the glacier chart
+  const glacierx = Array.from({ length: data.glacierIndex.length }, (_, i) => i + 1);
+
   // conversion for the unit toggle
   const tempLatest = data.tempSeries.at(-1);
   const tempValue = unit === "C" ? tempLatest : (tempLatest * 9) / 5 + 32;
@@ -73,9 +75,9 @@ export default function DashboardPage() {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <KpiCard
-            label="Glacier Index"
+            label="Glacier Mass Loss in meters water"
             value={data.glacierIndex.at(-1)}
-            sublabel="Model proxy"
+            sublabel="As of 2023"
             delta={data.difference.glacier}
             icon={<AcUnitIcon fontSize="small" />}
           />
@@ -123,7 +125,7 @@ export default function DashboardPage() {
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Glacier Index
             </Typography>
-            <BarMini x={x.slice(8)} series={data.glacierIndex} />
+            <BarMini x={glacierx} series={data.glacierIndex} />
           </Paper>
         </Grid>
       </Grid>

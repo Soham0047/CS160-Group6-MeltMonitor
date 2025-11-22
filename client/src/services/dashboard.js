@@ -1,9 +1,11 @@
 // fetch data for each statistic we want to display on the dashboard
+import Papa from 'papaparse';
+
 async function fetchCO2Data() {
   try {
     const connection = await fetch('https://global-warming.org/api/co2-api');
     if (!connection.ok) {
-      throw new Error('Failed data fetch');
+      throw new Error('Failed data fetch, API could not be reached');
     }
 
     const co2Data = await connection.json();
@@ -16,7 +18,7 @@ async function fetchCO2Data() {
     // throw new Error('No API');
   }
   catch (e) {
-    console.error('Error: CO2 data fetch has failed');
+    console.error('Error: CO2 data fetch has failed, using mock data');
     // in the event API fetch has failed, use mock data for filler
     return Array.from({ length: 28 }, (_,i) =>
     420 + Math.sin((i + 1) / 2) * 3);
@@ -27,7 +29,7 @@ async function fetchTempData() {
   try {
     const connection = await fetch('https://global-warming.org/api/temperature-api');
     if (!connection.ok) {
-      throw new Error('Failed data fetch');
+      throw new Error('Failed data fetch, API could not be reached');
     }
     
     const tempData = await connection.json();
@@ -41,7 +43,7 @@ async function fetchTempData() {
 
   }
   catch (e) {
-    console.error('Error: Temp data fetch has failed');
+    console.error('Error: Temp data fetch has failed, using mock data');
     return Array.from({ length: 12 }, (_,i) =>
     14 + Math.cos((i + 1) / 3) * 0.3);
   }
@@ -49,16 +51,36 @@ async function fetchTempData() {
 
 async function fetchGlacierData() {
   try {
-    // const connection = await fetch('');
-    // if (!connection.ok) {
-    //   throw new Error('Failed data fetch');
-    // }
-    // const data = await response.json();
-    // return data;
-    throw new Error('No API');
+    const connection = await fetch('/0_global.csv');
+    if (!connection.ok) {
+      throw new Error('Failed data fetch, csv file could not be reached');
+    }
+
+    const glacier_csv = await connection.text();
+
+    // use papaparse to read through csv
+    const glacierData = Papa.parse(glacier_csv, {
+      // treat first row as header row
+      header: true,
+      // automatically convert from string to number
+      dynamicTyping: true,
+      skipEmptyLines: true
+    });
+
+    // take the last 24 years for trend 
+    const trend = glacierData.data.slice(-24);
+
+    // get massLoss value from each object provided in trend by papaparse
+    const glacierSeries = trend.map(row => {
+      const massLoss = row['combined_mwe'];
+      return Math.round(massLoss * 1000) / 1000;
+    });
+
+    return glacierSeries;
+    // throw new Error('No API');
   }
   catch (e) {
-    console.error('Error: Glacier data fetch has failed');
+    console.error('Error: Glacier data fetch has failed, using mock data');
     return Array.from({ length: 16 }, (_,i) => 
       Math.max(0,100 - (i + 9) * 2.5));
   }
