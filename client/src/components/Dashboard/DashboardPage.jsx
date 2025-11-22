@@ -146,19 +146,19 @@ export default function DashboardPage() {
       <Box sx={{ mt: 2, fontSize: 14, color: "text.secondary" }}>
         Sources:{" "}
         <Link
+          href="https://global-warming.org/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GW AND CC API
+        </Link>
+        ,{" "}
+        <Link
           href="https://data.giss.nasa.gov/gistemp/"
           target="_blank"
           rel="noreferrer"
         >
           NASA GISTEMP
-        </Link>
-        ,{" "}
-        <Link
-          href="https://global-warming.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          CLIMATE ACCOUNTABILITY API
         </Link>
         ,{" "}
         <Link
@@ -168,6 +168,14 @@ export default function DashboardPage() {
           >
           NOAA GML
         </Link>
+        ,{" "}
+        <Link
+          href="https://doi.org/10.5904/wgms-glambie-2024-07"
+          target="_blank"
+          rel="noreferrer"
+          >
+          WGMS
+          </Link>
       </Box>
     </Container>
   );
