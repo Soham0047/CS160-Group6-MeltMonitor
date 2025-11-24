@@ -20,6 +20,11 @@ db.serialize(() => {
   )`);
 });
 
+// simple status for the server 
+app.get('/', (req, res) => {
+  res.send('<h1>MeltMonitor API Server</h1><p>Server is running</p>');
+});
+
 // Endpoint to store data
 app.post('/api/data', (req, res) => {
   const { co2, temp } = req.body;
@@ -40,6 +45,6 @@ app.post('/api/data', (req, res) => {
 
 const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`http://localhost:${PORT}`);
 });
 
