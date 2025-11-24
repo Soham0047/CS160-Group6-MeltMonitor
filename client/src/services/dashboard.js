@@ -95,6 +95,19 @@ function calculateDiff(series) {
   return Math.round(diff * 100) / 100;
 }
 
+// Store data in database
+async function storeData(co2, temp) {
+  try {
+    await fetch('http://localhost:3001/api/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ co2, temp })
+    });
+  } catch (e) {
+    console.error('Failed to store data:', e);
+  }
+}
+
 // src/services/dashboard.js
 export async function fetchDashboard() {
   // gather all 3 statistics at the same time
@@ -103,6 +116,11 @@ export async function fetchDashboard() {
     fetchTempData(),
     fetchGlacierData()
   ]);
+  
+  // Store latest values in database
+  const latestCo2 = co2Series[co2Series.length - 1];
+  const latestTemp = tempSeries[tempSeries.length - 1];
+  storeData(latestCo2, latestTemp);
     
   return {
     co2Series,
