@@ -95,14 +95,23 @@ function calculateDiff(series) {
   return Math.round(diff * 100) / 100;
 }
 
+// tracking the last stored values to prevent duplicates
+let lastStored = { co2: null, temp: null };
+
 // Store data in database
 async function storeData(co2, temp) {
+  // Skip if same values were just stored
+  if (lastStored.co2 === co2 && lastStored.temp === temp) {
+    return;
+  }
+  
   try {
     await fetch('http://localhost:3001/api/data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ co2, temp })
     });
+    lastStored = { co2, temp };
   } catch (e) {
     console.error('Failed to store data:', e);
   }
