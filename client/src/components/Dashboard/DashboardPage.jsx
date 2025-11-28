@@ -302,7 +302,6 @@ export default function DashboardPage() {
           </Grid>
         </Zoom>
 
-      /* Source row */
         <Fade in timeout={1600}>
           <Box
             sx={{
