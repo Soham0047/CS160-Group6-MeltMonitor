@@ -10,16 +10,19 @@ export function useDashboardData() {
   useEffect(() => {
     let ok = true;
 
+    // initial fetch on start up
     fetchDashboard()
       .then((d) => ok && setData(d))
       .catch(setError)
       .finally(() => ok && setLoading(false));
 
+    // refresh the data fetch every 24 hours
     const interval = setInterval(() => {
       fetchDashboard()
         .then((d) => ok && setData(d))
         .catch(setError);
-    }, 30000);
+        // set to miliseconds
+    }, 1000 * 60 * 60 * 24);
     
     return () => {
       ok = false;
