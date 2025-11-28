@@ -7,3 +7,4 @@ export async function getDashboardData() {
     updatedAt: new Date().toISOString(),
   };
 }
+

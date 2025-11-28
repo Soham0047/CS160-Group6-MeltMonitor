@@ -20,6 +20,7 @@ import ThermostatIcon from "@mui/icons-material/Thermostat";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import PublicIcon from "@mui/icons-material/Public";
+import { useDashboardData } from "../../hooks/useDashboardData.jsx";
 
 export default function DashboardPage() {
   const x = useMemo(() => Array.from({ length: 24 }, (_, i) => i + 1), []);
@@ -36,7 +37,7 @@ export default function DashboardPage() {
   const [unit, setUnit] = useState("C");
   const tempLatest = tempSeriesC.at(-1);
   const tempValue = unit === "C" ? tempLatest : (tempLatest * 9) / 5 + 32;
-
+  
   return (
     <Box
       sx={{
