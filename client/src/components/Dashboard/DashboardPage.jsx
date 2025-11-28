@@ -109,10 +109,10 @@ export default function DashboardPage() {
               <KpiCard
                 label="CO₂ (ppm)"
                 value={data.co2Series.at(-1).toFixed(1)}
-                sublabel="Last updated: now"
+                sublabel={data.difference.co2 ? "vs last entry" : "Last updated: now"}
                 delta={data.difference.co2}
-                icon={<ShowChartIcon fontSize="small" />
-                sublabel=" vs last entry"}
+                icon={<ShowChartIcon fontSize="small" />}
+                secondarySublabel={data.difference.co2 ? "vs last entry" : ""}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -121,7 +121,8 @@ export default function DashboardPage() {
                 value={tempValue.toFixed(2)}
                 sublabel="Monthly avg"
                 delta={data.difference.temp}
-                icon={<ThermostatIcon fontSize="small" />}
+                icon={<ThermostatIcon fontSize="small"/>}
+                secondarySublabel={data.difference.temp ? "vs last entry" : "Last updated: now"}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -131,6 +132,7 @@ export default function DashboardPage() {
                 sublabel="As of 2023"
                 delta={data.difference.glacier}             
                 icon={<AcUnitIcon fontSize="small" />}
+                secondarySublabel={data.difference.glacier ? "vs last entry" : "Last updated: now"}
               />
             </Grid>
                 
