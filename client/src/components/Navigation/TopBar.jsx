@@ -1,35 +1,41 @@
-import { useContext } from "react";
 import {
   AppBar,
   Toolbar,
   Typography,
   Box,
   Link as MUILink,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import MapIcon from "@mui/icons-material/Map";
 import InfoOutlined from "@mui/icons-material/InfoOutlined";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { ColorModeContext } from "../../main"; // <-- relative to this file
 
 const NavItem = ({ to, icon, label, active }) => (
   <MUILink
     component={RouterLink}
     to={to}
-    underline="hover"
+    underline="none"
     sx={{
       display: "flex",
       alignItems: "center",
-      gap: 0.75,
-      px: 1,
-      py: 0.5,
-      borderRadius: 1,
-      color: active ? "primary.main" : "text.primary",
-      "&:hover": { bgcolor: "action.hover" },
+      gap: 1,
+      px: 2.5,
+      py: 1,
+      borderRadius: 3,
+      color: active ? "white" : "rgba(255,255,255,0.7)",
+      background: active
+        ? "linear-gradient(135deg, #667eea, #764ba2)"
+        : "transparent",
+      fontWeight: 600,
+      fontSize: 15,
+      transition: "all 0.3s ease",
+      "&:hover": {
+        background: active
+          ? "linear-gradient(135deg, #5568d3, #65408a)"
+          : "rgba(255,255,255,0.1)",
+        color: "white",
+        transform: "translateY(-2px)",
+      },
     }}
   >
     {icon} {label}
@@ -37,26 +43,53 @@ const NavItem = ({ to, icon, label, active }) => (
 );
 
 export default function TopBar() {
-  const { mode, toggleColorMode } = useContext(ColorModeContext);
   const { pathname } = useLocation();
 
   return (
     <AppBar
       position="sticky"
-      color="default"
       elevation={0}
-      enableColorOnDark
       sx={{
-        backdropFilter: "blur(8px)",
-        bgcolor: (t) =>
-          mode === "light" ? "rgba(255,255,255,0.75)" : "rgba(20,20,20,0.65)",
-        borderBottom: (t) => `1px solid ${t.palette.divider}`,
+        backdropFilter: "blur(20px)",
+        background:
+          "linear-gradient(135deg, rgba(102, 126, 234, 0.95), rgba(118, 75, 162, 0.95))",
+        borderBottom: "1px solid rgba(255,255,255,0.1)",
+        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+        borderRadius: 0,
+        m: 0,
+        left: 0,
+        right: 0,
+        width: "100%",
+        "&:before": { display: "none" },
       }}
     >
-      <Toolbar sx={{ gap: 2 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>
-          MeltMonitor
-        </Typography>
+      <Toolbar disableGutters sx={{ gap: 3, py: 1, px: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <Box
+            sx={{
+              width: 40,
+              height: 40,
+              borderRadius: 2,
+              background: "rgba(255,255,255,0.2)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 24,
+            }}
+          >
+            🌍
+          </Box>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 800,
+              color: "white",
+              letterSpacing: -0.5,
+            }}
+          >
+            MeltMonitor
+          </Typography>
+        </Box>
         <Box sx={{ flexGrow: 1 }} />
         <NavItem
           to="/"
@@ -76,20 +109,6 @@ export default function TopBar() {
           label="Sources"
           active={pathname.startsWith("/sources")}
         />
-        <Box sx={{ width: 8 }} />
-        <Tooltip
-          title={
-            mode === "light" ? "Switch to dark mode" : "Switch to light mode"
-          }
-        >
-          <IconButton
-            size="small"
-            onClick={toggleColorMode}
-            aria-label="Toggle color mode"
-          >
-            {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
-          </IconButton>
-        </Tooltip>
       </Toolbar>
     </AppBar>
   );
