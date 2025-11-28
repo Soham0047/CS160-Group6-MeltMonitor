@@ -7,6 +7,9 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   Link,
+  Fade,
+  Grow,
+  Zoom,
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import KpiCard from "./KpiCard.jsx";
@@ -16,6 +19,7 @@ import WorldMapPlaceholder from "./WorldMapPlaceholder.jsx";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
+import PublicIcon from "@mui/icons-material/Public";
 import { useDashboardData } from "../../hooks/useDashboardData.jsx";
 
 export default function DashboardPage() {
@@ -50,133 +54,304 @@ export default function DashboardPage() {
   // conversion for the unit toggle
   const tempLatest = data.tempSeries.at(-1);
   const tempValue = unit === "C" ? tempLatest : (tempLatest * 9) / 5 + 32;
-
+  
   return (
-    <Container maxWidth="xl" sx={{ py: 3 }}>
-      {/* KPI row */}
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
-          <KpiCard
-            label="CO₂ (ppm)"
-            value={data.co2Series.at(-1).toFixed(1)}
-            sublabel="Last updated: now"
-            delta={data.difference.co2}
-            icon={<ShowChartIcon fontSize="small" />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <KpiCard
-            label={`Global Temp (°${unit})`}
-            value={tempValue.toFixed(2)}
-            sublabel="Monthly avg"
-            delta={data.difference.temp}
-            icon={<ThermostatIcon fontSize="small" />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <KpiCard
-            label="Glacier Mass Loss in meters water"
-            value={data.glacierIndex.at(-1)}
-            sublabel="As of 2023"
-            delta={data.difference.glacier}
-            icon={<AcUnitIcon fontSize="small" />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Paper variant="outlined" sx={{ p: 2, height: "100%" }}>
-            <Typography variant="overline" color="text.secondary">
-              Unit
-            </Typography>
-            <Box>
-              <ToggleButtonGroup
-                size="small"
-                exclusive
-                value={unit}
-                onChange={(_, v) => v && setUnit(v)}
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        pb: 4,
+      }}
+    >
+      <Fade in timeout={800}>
+        <Box
+          sx={{
+            background:
+              "linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)",
+            backdropFilter: "blur(20px)",
+            py: 6,
+            mb: 3,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+          }}
+        >
+          <Container maxWidth="xl">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+              <PublicIcon sx={{ fontSize: 48, color: "white" }} />
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 700,
+                  color: "white",
+                  textShadow: "0 2px 20px rgba(0,0,0,0.2)",
+                }}
               >
-                <ToggleButton value="C">°C</ToggleButton>
-                <ToggleButton value="F">°F</ToggleButton>
-              </ToggleButtonGroup>
+                Climate Dashboard
+              </Typography>
             </Box>
-          </Paper>
-        </Grid>
-      </Grid>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "rgba(255,255,255,0.9)",
+                fontWeight: 400,
+                maxWidth: "800px",
+              }}
+            >
+              Real-time monitoring of global climate indicators
+            </Typography>
+          </Container>
+        </Box>
+      </Fade>
 
-      {/* charts row */}
-      <Grid container spacing={2} sx={{ mt: 1 }}>
-        <Grid item xs={12} md={4}>
-          <Paper variant="outlined" sx={{ p: 2 }}>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              CO₂ Trend Over Last 4 weeks
-            </Typography>
-            <SparkLine x={co2x} series={data.co2Series} />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper variant="outlined" sx={{ p: 2 }}>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              Temperature Over Last 12 Months
-            </Typography>
-            <SparkLine x={tempx} series={data.tempSeries} />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper variant="outlined" sx={{ p: 2 }}>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              Glacier Index
-            </Typography>
-            <BarMini x={glacierx} series={data.glacierIndex} />
-          </Paper>
-        </Grid>
-      </Grid>
+      <Container maxWidth="xl" sx={{ mt: -2 }}>
+        <Grow in timeout={1000}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={3}>
+              <KpiCard
+                label="CO₂ (ppm)"
+                value={data.co2Series.at(-1).toFixed(1)}
+                sublabel="Last updated: now"
+                delta={data.difference.co2}
+                icon={<ShowChartIcon fontSize="small" />}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <KpiCard   
+                label={`Global Temp (°${unit})`}
+                value={tempValue.toFixed(2)}
+                sublabel="Monthly avg"
+                delta={data.difference.temp}
+                icon={<ThermostatIcon fontSize="small" />}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <KpiCard
+                label="Glacier Mass Loss in meters water"
+                value={data.glacierIndex.at(-1)}
+                sublabel="As of 2023"
+                delta={data.difference.glacier}             
+                icon={<AcUnitIcon fontSize="small" />}
+              />
+            </Grid>
+                
+            <Grid item xs={12} sm={6} md={3}>
+              <Paper
+                sx={{
+                  p: 2.5,
+                  height: "100%",
+                  background: "rgba(255,255,255,0.95)",
+                  backdropFilter: "blur(10px)",
+                  borderRadius: 3,
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 12px 48px rgba(0,0,0,0.15)",
+                  },
+                }}
+              >
+                <Typography
+                  variant="overline"
+                  color="text.secondary"
+                  sx={{ fontWeight: 600 }}
+                >
+                  Temperature Unit
+                </Typography>
+                <Box sx={{ mt: 1 }}>
+                  <ToggleButtonGroup
+                    size="small"
+                    exclusive
+                    value={unit}
+                    onChange={(_, v) => v && setUnit(v)}
+                    sx={{
+                      "& .MuiToggleButton-root": {
+                        borderRadius: 2,
+                        px: 2.5,
+                        fontWeight: 600,
+                        transition: "all 0.2s ease",
+                        "&.Mui-selected": {
+                          background:
+                            "linear-gradient(135deg, #667eea, #764ba2)",
+                          color: "white",
+                          "&:hover": {
+                            background:
+                              "linear-gradient(135deg, #5568d3, #65408a)",
+                          },
+                        },
+                      },
+                    }}
+                  >
+                    <ToggleButton value="C">°C</ToggleButton>
+                    <ToggleButton value="F">°F</ToggleButton>
+                  </ToggleButtonGroup>
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Grow>
 
-      {/* map row */}
-      <Grid container spacing={2} sx={{ mt: 1 }}>
-        <Grid item xs={12}>
-          <Paper variant="outlined" sx={{ p: 2 }}>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              Locations
-            </Typography>
-            <WorldMapPlaceholder />
-          </Paper>
-        </Grid>
-      </Grid>
+        <Fade in timeout={1200}>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12} md={4}>
+              <Paper
+                sx={{
+                  p: 3,
+                  background: "rgba(255,255,255,0.95)",
+                  backdropFilter: "blur(10px)",
+                  borderRadius: 3,
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 12px 48px rgba(0,0,0,0.15)",
+                  },
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ mb: 2, fontWeight: 600, fontSize: 16 }}
+                >
+                  CO₂ Trend Over Last 4 weeks
+                </Typography>
+                <SparkLine x={co2x} series={data.co2Series} />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Paper
+                sx={{
+                  p: 3,
+                  background: "rgba(255,255,255,0.95)",
+                  backdropFilter: "blur(10px)",
+                  borderRadius: 3,
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 12px 48px rgba(0,0,0,0.15)",
+                  },
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ mb: 2, fontWeight: 600, fontSize: 16 }}
+                >
+                  Temperature Over Last 12 Months
+                </Typography>
+                <SparkLine x={tempx} series={data.tempSeries}  />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Paper
+                sx={{
+                  p: 3,
+                  background: "rgba(255,255,255,0.95)",
+                  backdropFilter: "blur(10px)",
+                  borderRadius: 3,
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 12px 48px rgba(0,0,0,0.15)",
+                  },
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ mb: 2, fontWeight: 600, fontSize: 16 }}
+                >
+                  Glacier Index
+                </Typography>
+                <BarMini x={glacierx} series={data.glacierIndex} />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Fade>
 
-      {/* sources row */}
-      <Box sx={{ mt: 2, fontSize: 14, color: "text.secondary" }}>
-        Sources:{" "}
-        <Link
-          href="https://global-warming.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GW AND CC API
-        </Link>
-        ,{" "}
-        <Link
-          href="https://data.giss.nasa.gov/gistemp/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          NASA GISTEMP
-        </Link>
-        ,{" "}
-        <Link
-          href="https://gml.noaa.gov/ccgg/trends/gl_trend.html"
-          target="_blank"
-          rel="noreferrer"
+        <Zoom in timeout={1400}>
+          <Grid container spacing={3} sx={{ mt: 2 }}>
+            <Grid item xs={12}>
+              <Paper
+                sx={{
+                  p: 3,
+                  background: "rgba(255,255,255,0.95)",
+                  backdropFilter: "blur(10px)",
+                  borderRadius: 3,
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    boxShadow: "0 12px 48px rgba(0,0,0,0.15)",
+                  },
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  sx={{ mb: 2, fontWeight: 600, fontSize: 16 }}
+                >
+                  Global Locations
+                </Typography>
+                <WorldMapPlaceholder />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Zoom>
+
+      /* Source row */
+        <Fade in timeout={1600}>
+          <Box
+            sx={{
+              mt: 4,
+              p: 2,
+              fontSize: 14,
+              color: "white",
+              background: "rgba(255,255,255,0.1)",
+              backdropFilter: "blur(10px)",
+              borderRadius: 2,
+              border: "1px solid rgba(255,255,255,0.2)",
+            }}
           >
-          NOAA GML
-        </Link>
-        ,{" "}
-        <Link
-          href="https://doi.org/10.5904/wgms-glambie-2024-07"
-          target="_blank"
-          rel="noreferrer"
-          >
-          WGMS
-          </Link>
-      </Box>
-    </Container>
+            Sources:{" "}            
+            <Link
+              href="https://gml.noaa.gov/ccgg/trends/"
+              target="_blank"
+              rel="noreferrer"
+              sx={{ color: "white", fontWeight: 600 }}
+            >
+              GW AND CC API
+            </Link>
+            ,{" "}
+            <Link
+              href="https://gml.noaa.gov/ccgg/trends/"
+              target="_blank"
+              rel="noreferrer"
+              sx={{ color: "white", fontWeight: 600 }}
+            >
+              NASA GISTEMP
+            </Link>
+            ,{" "}
+            <Link
+              href="https://gml.noaa.gov/ccgg/trends/"
+              target="_blank"
+              rel="noreferrer"
+              sx={{ color: "white", fontWeight: 600 }}
+            >
+              NOAA GML
+            </Link>
+            ,{" "}
+            <Link
+              href="https://gml.noaa.gov/ccgg/trends/"
+              target="_blank"
+              rel="noreferrer"
+              sx={{ color: "white", fontWeight: 600 }}
+            >
+              WGMS
+             </Link>     
+          </Box>
+        </Fade>
+      </Container>
+    </Box>
   );
 }

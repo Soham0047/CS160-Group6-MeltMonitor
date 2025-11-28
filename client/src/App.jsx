@@ -1,15 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import TopBar from "./components/Navigation/TopBar.jsx";
-import DashboardPage from "./components/Dashboard/DashboardPage.jsx";
-
-function Placeholder({ title }) {
-  return (
-    <div style={{ padding: 24 }}>
-      <h2 style={{ margin: 0 }}>{title}</h2>
-      <p>Coming soon…</p>
-    </div>
-  );
-}
+import TopBar from "./components/Navigation/TopBar";
+import DashboardPage from "./components/Dashboard/DashboardPage";
+import SourcesPage from "./components/Sources/SourcesPage"
+import MapPage from "./pages/MapPage";
 
 export default function App() {
   return (
@@ -17,8 +10,8 @@ export default function App() {
       <TopBar />
       <Routes>
         <Route path="/" element={<DashboardPage />} />
-        <Route path="/map" element={<Placeholder title="Map" />} />
-        <Route path="/sources" element={<Placeholder title="Sources" />} />
+        <Route path="/map" element={<MapPage />} />
+        <Route path="/sources" element={<SourcesPage />} />
       </Routes>
     </>
   );

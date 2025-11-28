@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Test OWID API - ISO Code Matching</title>
+  </head>
+  <body>
+    <h1>Testing OWID Per Capita Data</h1>
+    <div id="results"></div>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5/papaparse.min.js"></script>
+    <script>
+      const resultsDiv = document.getElementById("results");
+
+      async function testOWID() {
+        try {
+          resultsDiv.innerHTML = "<p>Fetching OWID data...</p>";
+
+          const url =
+            "https://ourworldindata.org/grapher/co-emissions-per-capita.csv?v=1&csvType=full&useColumnShortNames=true";
+          const response = await fetch(url);
+          const csvText = await response.text();
+
+          Papa.parse(csvText, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (results) => {
+              const dataMap = new Map();
+              const year2022Data = new Map();
+
+              results.data.forEach((row) => {
+                const iso3 = row.Code;
+                const year = parseInt(row.Year);
+                const perCapita = parseFloat(row.emissions_total_per_capita);
+
+                if (!iso3 || !year || !Number.isFinite(perCapita)) return;
+
+                if (!dataMap.has(iso3)) {
+                  dataMap.set(iso3, new Map());
+                }
+                dataMap.get(iso3).set(year, perCapita);
+
+                // Collect 2022 data
+                if (year === 2022) {
+                  year2022Data.set(iso3, perCapita);
+                }
+              });
+
+              let html = `<h2>✅ OWID Data Loaded</h2>`;
+              html += `<p>Total countries: ${dataMap.size}</p>`;
+              html += `<p>Countries with 2022 data: ${year2022Data.size}</p>`;
+
+              html += `<h3>Sample Countries (2022 data):</h3><ul>`;
+              const testCodes = [
+                "USA",
+                "CHN",
+                "IND",
+                "IDN",
+                "DEU",
+                "GBR",
+                "FRA",
+                "JPN",
+              ];
+              testCodes.forEach((code) => {
+                const value = year2022Data.get(code);
+                if (value !== undefined) {
+                  html += `<li><strong>${code}</strong>: ${value.toFixed(2)} t/capita</li>`;
+                } else {
+                  html += `<li><strong>${code}</strong>: NO DATA for 2022</li>`;
+                }
+              });
+              html += `</ul>`;
+
+              // Show all available codes for 2022
+              html += `<h3>All ISO3 codes with 2022 data (first 50):</h3><ul>`;
+              let count = 0;
+              for (const [code, value] of year2022Data.entries()) {
+                if (count++ >= 50) break;
+                html += `<li>${code}: ${value.toFixed(2)} t</li>`;
+              }
+              html += `</ul>`;
+
+              resultsDiv.innerHTML = html;
+            },
+            error: (error) => {
+              resultsDiv.innerHTML = `<p style="color: red;">Error parsing CSV: ${error.message}</p>`;
+            },
+          });
+        } catch (error) {
+          resultsDiv.innerHTML = `<p style="color: red;">Error fetching data: ${error.message}</p>`;
+        }
+      }
+
+      testOWID();
+    </script>
+  </body>
+</html>
