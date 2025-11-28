@@ -168,3 +168,8 @@ temp/
 
 # API keys and secrets
 config/secrets.js
+
+# Database files
+*.db
+*.db-wal
+*.db-shm
