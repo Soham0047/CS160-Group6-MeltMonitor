@@ -111,7 +111,8 @@ export default function DashboardPage() {
                 value={data.co2Series.at(-1).toFixed(1)}
                 sublabel="Last updated: now"
                 delta={data.difference.co2}
-                icon={<ShowChartIcon fontSize="small" />}
+                icon={<ShowChartIcon fontSize="small" />
+                sublabel=" vs last entry"}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
