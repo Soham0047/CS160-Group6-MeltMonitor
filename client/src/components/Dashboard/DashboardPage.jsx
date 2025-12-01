@@ -265,7 +265,7 @@ export default function DashboardPage() {
                   variant="subtitle2"
                   sx={{ mb: 2, fontWeight: 600, fontSize: 16 }}
                 >
-                  Glacier Index
+                  Glacier Mass Loss
                 </Typography>
                 <BarMini x={glacierx} series={data.glacierIndex} />
               </Paper>
