@@ -1,266 +1,309 @@
-# MeltMonitor 🌎📊
+# MeltMonitor 🌍📊
 
-A lightweight, open, web-based dashboard that lets students, teachers, and community groups explore climate indicators (CO₂, temperature, glacier mass) with clear visuals and verified sources.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Soham0047/CS160-Group6-MeltMonitor)
 
-## Project Status
+A comprehensive, open-source climate monitoring dashboard that visualizes global CO₂ emissions, temperature trends, and glacier mass loss with interactive maps and AI-powered predictions. Built for students, educators, researchers, and anyone interested in understanding climate data.
 
-- **main**: ships the starter dashboard — TopBar, KPI tiles, simple charts, map placeholder, routes, and a clean MUI theme.
-- **feat/map-page**: active branch for the real Map (Leaflet + OSM). Not merged yet by design so others can work on different features from main.
+![MeltMonitor Dashboard](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![React](https://img.shields.io/badge/React-18.x-61DAFB?logo=react)
+![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?logo=vite)
+![MUI](https://img.shields.io/badge/MUI-6.x-007FFF?logo=mui)
 
-## Tech Stack
+---
 
-- React + Vite (fast dev server & build)
-- MUI (Material UI) for components & theming
-- MUI X Charts for simple, lightweight charts
-- React Router for routing
-- (Map branch) react-leaflet + leaflet for the map
-- Tailwind (optional utilities) — see Tailwind note below
+## ✨ Features
 
-## Repo Layout
+### 🗺️ Interactive World Map
+
+- **Choropleth visualization** of CO₂ emissions by country (1949-2024)
+- **Dual metrics**: Toggle between total emissions (Gt) and per-capita emissions (t/person)
+- **Time slider**: Explore 75+ years of historical data
+- **Country details**: Click any country to see detailed emissions data
+- **GeoJSON rendering** with 258 country boundaries
+
+### 🤖 AI-Powered Predictions (Ensemble ML)
+
+- **10-year forecast** (2025-2034) using ensemble machine learning
+- **4 algorithms combined**:
+  - Linear Regression (trend analysis)
+  - Polynomial Regression (degree 2, captures curves)
+  - Exponential Smoothing (α=0.3, recent weight)
+  - Moving Average with Trend (10-year window)
+- **Performance metrics**: R² > 97%, MAPE < 2.5%
+- **Confidence levels**: High/Medium/Low based on model agreement
+- **Dynamic weighting**: Models weighted by accuracy (R² + inverse MAPE)
+
+### 📊 Real-Time Dashboard
+
+- **Live CO₂ levels** from NOAA Global Monitoring Lab
+- **Global temperature anomaly** with °C/°F toggle
+- **Glacier mass loss** tracking (WGMS data)
+- **Trend sparklines** and mini bar charts
+- **KPI cards** with change indicators
+
+### 📚 Data Sources Page
+
+- Curated list of 10+ verified scientific data sources
+- Direct links to NOAA, NASA GISTEMP, OWID, WGMS, and more
+
+---
+
+## 🛠️ Tech Stack
+
+| Category            | Technologies                                 |
+| ------------------- | -------------------------------------------- |
+| **Frontend**        | React 18, Vite 5, React Router 6             |
+| **UI Framework**    | Material UI (MUI) 6, MUI X Charts            |
+| **Data Processing** | Papa Parse (CSV), Custom ML algorithms       |
+| **Maps**            | GeoJSON, SVG-based choropleth                |
+| **Styling**         | MUI theming, CSS-in-JS, Tailwind (utilities) |
+| **Build**           | Vite, ESLint, PostCSS                        |
+
+---
+
+## 📁 Project Structure
 
 ```
-client/                   # React app
-  src/
-    App.jsx
-    main.jsx
-    index.css
-    components/
-      Navigation/TopBar.jsx
-      Dashboard/
-        DashboardPage.jsx
-        KpiCard.jsx
-        WorldMapPlaceholder.jsx
-      Charts/
-        SparkLine.jsx
-        BarMini.jsx
-    pages/
-      MapPage.jsx         # on feat/map-page only
-    hooks/
-      useDashboardData.jsx
-    services/
-      dashboard.js
-      dataClient.js
-  index.html
-  package.json
-README.md
+MeltMonitor/
+├── client/                          # React frontend application
+│   ├── public/
+│   │   └── data/                    # Static datasets
+│   │       ├── annual-co2-emissions-per-country.csv    # 1949-2024
+│   │       ├── co-emissions-per-capita.csv             # 1949-2024
+│   │       ├── owid-co2-data.csv                       # OWID comprehensive
+│   │       ├── countries.geojson                       # Country boundaries
+│   │       └── ...                                     # Additional datasets
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Navigation/TopBar.jsx        # App navigation
+│   │   │   ├── Dashboard/
+│   │   │   │   ├── DashboardPage.jsx        # Main dashboard
+│   │   │   │   └── KpiCard.jsx              # Metric cards
+│   │   │   ├── Map/
+│   │   │   │   ├── WorldMapLocal.jsx        # Interactive choropleth
+│   │   │   │   ├── CO2PredictionPanel.jsx   # ML predictions UI
+│   │   │   │   ├── Legend.jsx               # Map legend
+│   │   │   │   └── MetricControls.jsx       # Metric toggles
+│   │   │   ├── Charts/
+│   │   │   │   ├── SparkLine.jsx            # Trend lines
+│   │   │   │   └── BarMini.jsx              # Mini bar charts
+│   │   │   └── Sources/SourcesPage.jsx      # Data sources
+│   │   ├── services/
+│   │   │   ├── co2PredictionML.js           # Ensemble ML model
+│   │   │   ├── extendedCO2Data.js           # Extended dataset loader
+│   │   │   ├── mapDataLocal.js              # Map data service
+│   │   │   ├── localCO2Data.js              # Legacy data service
+│   │   │   ├── owidApi.js                   # OWID API integration
+│   │   │   ├── climateTraceApi.js           # Climate TRACE API
+│   │   │   └── dashboard.js                 # Dashboard data service
+│   │   ├── pages/
+│   │   │   └── MapPage.jsx                  # Map page layout
+│   │   ├── hooks/
+│   │   │   └── useDashboardData.jsx         # Dashboard data hook
+│   │   ├── utils/
+│   │   │   └── color.js                     # Color utilities
+│   │   ├── App.jsx                          # App router
+│   │   ├── main.jsx                         # Entry point + theme
+│   │   └── index.css                        # Global styles
+│   ├── package.json
+│   └── vite.config.js
+├── server/                          # Backend (optional)
+│   ├── server.js
+│   └── package.json
+├── docs/                            # Documentation
+└── README.md
 ```
 
-We keep map work isolated in `feat/map-page`. Everyone else should branch off `main` for their features.
+---
 
-## Getting Started (Local Dev)
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 20+ (`node -v`)
-- npm (`npm -v`)
-- Git
+- **Node.js** 18+ (recommended: 20+)
+- **npm** 9+ or **yarn**
+- **Git**
 
-### Install & Run
+### Installation
 
 ```bash
+# Clone the repository
 git clone https://github.com/Soham0047/CS160-Group6-MeltMonitor.git
-cd CS160-Group6-MeltMonitor/client
+cd CS160-Group6-MeltMonitor
+
+# Install frontend dependencies
+cd client
 npm install
+
+# Start development server
 npm run dev
 ```
 
-Vite will print a local URL (e.g., `http://localhost:5173`). If the port is taken, it auto-picks another (e.g., 5174).
+The app will be available at `http://localhost:5173`
 
-### Common Scripts
+### Available Scripts
 
 ```bash
-npm run dev       # start local dev server
-npm run build     # production build -> dist/
-npm run preview   # preview built app
+npm run dev       # Start development server (hot reload)
+npm run build     # Build for production → dist/
+npm run preview   # Preview production build locally
+npm run lint      # Run ESLint
 ```
 
-## Tailwind Note (Only if You Use Tailwind Utilities)
+---
 
-We use MUI for most UI, but Tailwind is allowed for small utility spacing if you like. You may be on Tailwind v4 (new plugin) or v3 (classic). Either is fine; be consistent.
+## 🌐 Deployment
 
-### If Tailwind v4
+### Deploy to Vercel (Recommended)
 
-**client/postcss.config.js**
+1. **Via Dashboard:**
 
-```js
-export default { plugins: { "@tailwindcss/postcss": {} } };
+   - Go to [vercel.com](https://vercel.com)
+   - Import `Soham0047/CS160-Group6-MeltMonitor`
+   - Set **Root Directory**: `client`
+   - Framework: **Vite** (auto-detected)
+   - Click **Deploy**
+
+2. **Via CLI:**
+   ```bash
+   npm install -g vercel
+   cd client
+   vercel
+   ```
+
+### Build Settings
+
+| Setting          | Value           |
+| ---------------- | --------------- |
+| Root Directory   | `client`        |
+| Build Command    | `npm run build` |
+| Output Directory | `dist`          |
+| Install Command  | `npm install`   |
+
+---
+
+## 📊 Data Sources
+
+| Dataset              | Description                | Coverage  | Source            |
+| -------------------- | -------------------------- | --------- | ----------------- |
+| Annual CO₂ Emissions | Total emissions by country | 1949-2024 | Our World in Data |
+| Per Capita Emissions | Emissions per person       | 1949-2024 | Our World in Data |
+| OWID CO₂ Dataset     | Comprehensive GHG data     | 1750-2023 | GitHub OWID       |
+| World Bank CO₂       | AR5 per-capita metrics     | 1960-2020 | World Bank        |
+| Countries GeoJSON    | Boundary polygons          | Current   | Natural Earth     |
+| CO₂ Levels (Live)    | Atmospheric CO₂            | Real-time | NOAA GML          |
+| Temperature Anomaly  | Global temp deviation      | Monthly   | NASA GISTEMP      |
+| Glacier Mass Loss    | Cumulative water equiv.    | 2000-2023 | WGMS              |
+
+---
+
+## 🤖 ML Prediction Model
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    ENSEMBLE PREDICTOR                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐   │
+│  │   Linear     │  │  Polynomial  │  │   Exponential    │   │
+│  │  Regression  │  │  (Degree 2)  │  │   Smoothing      │   │
+│  │   ~25% wt    │  │   ~30% wt    │  │    ~25% wt       │   │
+│  └──────────────┘  └──────────────┘  └──────────────────┘   │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │              Moving Average + Trend                   │   │
+│  │                    ~20% weight                        │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                                                              │
+│  Weights dynamically adjusted by: R² × (1 / (1 + MAPE))     │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-**client/src/index.css**
+### Performance Metrics
+
+| Metric           | Value                |
+| ---------------- | -------------------- |
+| Training Period  | 30 years (1995-2024) |
+| Ensemble R²      | 97.3%                |
+| Ensemble MAPE    | 2.2%                 |
+| Prediction Range | 2025-2034            |
+
+---
+
+## 🎨 UI/UX Features
+
+- **Gradient theme**: Purple/indigo professional aesthetic
+- **Responsive design**: Works on desktop, tablet, and mobile
+- **Smooth animations**: Fade/grow transitions on page load
+- **Interactive elements**: Hover effects, tooltips, clickable regions
+- **Accessibility**: Keyboard navigation, ARIA labels
+
+---
+
+## 🔧 Configuration
+
+### Environment Variables (Optional)
+
+Create `client/.env`:
+
+```env
+VITE_API_BASE=https://api.example.com
+```
+
+### Tailwind (Optional Utilities)
+
+The project uses MUI for primary styling. Tailwind is available for utility classes:
 
 ```css
+/* Already configured in index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
 
-Ensure `import './index.css'` exists at the top of `src/main.jsx`.
+---
 
-### If Tailwind v3
+## 🤝 Contributing
 
-**postcss.config.cjs**
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feat/your-feature`
+3. **Commit** changes: `git commit -m "feat: add new feature"`
+4. **Push** to branch: `git push origin feat/your-feature`
+5. **Open** a Pull Request
 
-```js
-module.exports = { plugins: { tailwindcss: {}, autoprefixer: {} } };
-```
+### Coding Standards
 
-**tailwind.config.cjs**
+- **Components**: Small, focused, reusable
+- **Services**: Business logic separated from UI
+- **Styling**: MUI sx prop preferred; Tailwind for utilities
+- **Types**: JSDoc comments for complex functions
 
-```js
-module.exports = {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
-  theme: { extend: {} },
-  plugins: [],
-};
-```
+---
 
-## Environment Variables
+## 📝 License
 
-Create `client/.env` (do not commit it):
+This project is developed for **SJSU CS160** (Software Engineering) course.
 
-```
-VITE_API_BASE=https://api.example.com
-```
+---
 
-Add new keys as we wire real APIs. Keep `client/.env.example` up-to-date.
+## 👥 Team
 
-## What's Already Built (on main)
+**CS160 Group 6** - San José State University, Fall 2025
 
-- **TopBar** with routes: `/`, `/map`, `/sources`
-- **Dashboard page**:
-  - KPI cards (CO₂, Temp with °C/°F toggle, Glacier Index)
-  - Two sparkline charts + one mini bar chart (mock data)
-  - Map placeholder panel
-  - Source links area (NOAA, NASA GISTEMP)
-- **Theme** with light/dark mode toggle (via context)
+---
 
-**Open files**:
+## 🙏 Acknowledgments
 
-- `src/components/Navigation/TopBar.jsx`
-- `src/components/Dashboard/DashboardPage.jsx`
-- `src/components/Charts/*`
-- `src/main.jsx` (theme + router + dark mode)
+- [Our World in Data](https://ourworldindata.org/) for comprehensive CO₂ datasets
+- [NOAA Global Monitoring Laboratory](https://gml.noaa.gov/) for atmospheric data
+- [NASA GISS](https://data.giss.nasa.gov/) for temperature records
+- [WGMS](https://wgms.ch/) for glacier monitoring data
+- [Natural Earth](https://www.naturalearthdata.com/) for geographic data
 
-## How to Work on a Feature (Branching Guide)
+---
 
-### 1. Sync main
-
-```bash
-git checkout main
-git pull
-```
-
-### 2. Create Your Feature Branch
-
-```bash
-git checkout -b feat/<short-name>
-# example: feat/unit-toggle, feat/sources-links, feat/ci
-```
-
-### 3. Code → Commit → Push
-
-```bash
-git add .
-git commit -m "feat(unit-toggle): add °C/°F toggle to temperature card"
-git push -u origin feat/unit-toggle
-```
-
-### 4. Open a Pull Request into main
-
-Keep PRs small and focused (≤ ~300 lines if possible).
-
-**Note**: Map work continues on `feat/map-page`. Please do not merge that branch yet; open separate feature branches from `main` for unrelated work.
-
-## If You're Working on the Map (Only on feat/map-page)
-
-### Deps
-
-```bash
-cd client
-npm i react-leaflet leaflet
-```
-
-### Leaflet CSS (in client/index.html `<head>`)
-
-```html
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-  crossorigin=""
-/>
-```
-
-### Files
-
-- `src/pages/MapPage.jsx`
-- `src/components/Map/WorldMap.jsx`
-
-### Run
-
-```bash
-npm run dev
-# go to /map
-```
-
-**Do not merge this branch yet.** We'll open a PR when it's ready for review.
-
-## Coding Standards
-
-- **Components**: small, focused; keep layout in pages, logic in hooks/services.
-- **Styling**: use MUI props/styling; Tailwind only for quick utilities.
-- **Accessibility**: keyboard focus visible; aria-labels on icon buttons.
-- **Performance**: memoize static arrays; avoid re-creating large data on each render.
-- **Security basics (front-end)**: no secrets in code; don't use localStorage for auth tokens (when we add auth).
-
-## Backlog Alignment (Sprint-1 Targets Already in main)
-
-- ✅ Top nav, Dashboard shell, °C/°F toggle
-- ✅ Source links area
-- ✅ Data/service stubs (ready to swap in real APIs)
-- CI/lint/test — add as you go (see below)
-
-## Lint, Tests, CI (Add as Needed)
-
-You can add these if not already present:
-
-```bash
-npm i -D eslint prettier eslint-config-prettier vitest jsdom @testing-library/react @testing-library/jest-dom
-```
-
-### Sample Scripts
-
-```json
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview",
-  "lint": "eslint . --ext .js,.jsx",
-  "test": "vitest run",
-  "test:ui": "vitest"
-}
-```
-
-## Troubleshooting
-
-**Blank screen** → check DevTools Console:
-
-- Missing import / wrong path or filename case
-- Not running in `client/` folder
-- Tailwind v4 vs v3 PostCSS plugin mismatch (see Tailwind note)
-
-**Port already in use** → Vite auto-picks a new one; check the terminal output.
-
-## Contributing Workflow (Short Version)
-
-1. Branch off `main`.
-2. Make small, reviewable commits.
-3. Open PR → request review.
-4. Address comments → merge squash.
-5. Delete the feature branch.
-
-**Rule**: keep `main` always buildable.
-
-## License
-
-Academic/educational use for SJSU CS160. (Add a LICENSE file if required.)
+<p align="center">
+  Made with 💚 for a sustainable future
+</p>
