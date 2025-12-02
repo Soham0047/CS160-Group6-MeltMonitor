@@ -8,14 +8,12 @@ import {
   ToggleButton,
   Link,
   Fade,
-  Grow,
-  Zoom,
+  Grow
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import KpiCard from "./KpiCard.jsx";
 import SparkLine from "../Charts/SparkLine.jsx";
 import BarMini from "../Charts/BarMini.jsx";
-import WorldMapPlaceholder from "./WorldMapPlaceholder.jsx";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
@@ -272,35 +270,6 @@ export default function DashboardPage() {
             </Grid>
           </Grid>
         </Fade>
-
-        <Zoom in timeout={1400}>
-          <Grid container spacing={3} sx={{ mt: 2 }}>
-            <Grid item xs={12}>
-              <Paper
-                sx={{
-                  p: 3,
-                  background: "rgba(255,255,255,0.95)",
-                  backdropFilter: "blur(10px)",
-                  borderRadius: 3,
-                  border: "1px solid rgba(255,255,255,0.3)",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    boxShadow: "0 12px 48px rgba(0,0,0,0.15)",
-                  },
-                }}
-              >
-                <Typography
-                  variant="subtitle2"
-                  sx={{ mb: 2, fontWeight: 600, fontSize: 16 }}
-                >
-                  Global Locations
-                </Typography>
-                <WorldMapPlaceholder />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Zoom>
 
         <Fade in timeout={1600}>
           <Box
