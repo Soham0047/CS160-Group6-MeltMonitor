@@ -13,7 +13,7 @@ import PublicIcon from "@mui/icons-material/Public";
 export default function SourcesPage() {
     const sources = [
         {
-            title: "NOAA CO₂ Trends",
+            title: "NOAA CO₂ Trends ",
             desc: "Atmospheric CO₂ data collected daily by NOAA.",
             link: "https://gml.noaa.gov/ccgg/trends/gl_trend.html",
             linkText: "Visit NOAA Data",
