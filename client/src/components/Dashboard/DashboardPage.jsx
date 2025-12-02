@@ -103,7 +103,7 @@ export default function DashboardPage() {
       <Container maxWidth="xl" sx={{ mt: -2 }}>
         <Grow in timeout={1000}>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <KpiCard
                 label="CO₂ (ppm)"
                 value={data.co2Series.at(-1).toFixed(1)}
@@ -113,7 +113,7 @@ export default function DashboardPage() {
                 secondarySublabel={data.difference.co2 ? "vs last entry" : ""}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <KpiCard   
                 label={`Global Temp (°${unit})`}
                 value={tempValue.toFixed(2)}
@@ -123,7 +123,7 @@ export default function DashboardPage() {
                 secondarySublabel={data.difference.temp ? "vs last entry" : "Last updated: now"}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <KpiCard
                 label="Glacier Mass Loss in meters water"
                 value={data.glacierIndex.at(-1)}
@@ -134,7 +134,7 @@ export default function DashboardPage() {
               />
             </Grid>
                 
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Paper
                 sx={{
                   p: 2.5,
@@ -193,7 +193,7 @@ export default function DashboardPage() {
 
         <Fade in timeout={1200}>
           <Grid container spacing={3} sx={{ mt: 2 }}>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Paper
                 sx={{
                   p: 3,
@@ -218,7 +218,7 @@ export default function DashboardPage() {
                 <SparkLine x={co2x} series={data.co2Series} />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Paper
                 sx={{
                   p: 3,
@@ -243,7 +243,7 @@ export default function DashboardPage() {
                 <SparkLine x={tempx} series={data.tempSeries}  />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <Paper
                 sx={{
                   p: 3,
