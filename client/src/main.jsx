@@ -5,6 +5,7 @@ import App from "./App.jsx";
 
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext.jsx";
 
 console.log("🚀 main.jsx loaded - MeltMonitor starting...");
 
@@ -35,7 +36,9 @@ function Root() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   );
