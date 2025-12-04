@@ -18,22 +18,14 @@ import {
 import SchoolIcon from "@mui/icons-material/School";
 import QuizIcon from "@mui/icons-material/Quiz";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import TrackChangesIcon from "@mui/icons-material/TrackChanges";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
-import PublicIcon from "@mui/icons-material/Public";
 import StarIcon from "@mui/icons-material/Star";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 import QuizEngine from "../components/Learning/QuizEngine";
 import { BadgeSystem } from "../components/Learning/BadgeSystem";
-import { CarbonCalculator } from "../components/Learning/CarbonCalculator";
-import { GoalTracker } from "../components/Learning/GoalTracker";
 import { CountryComparison } from "../components/Learning/CountryComparison";
-import { Leaderboard } from "../components/Learning/SocialFeatures";
 import {
   ClimateChat,
   SmartRecommendations,
@@ -199,24 +191,24 @@ function QuickActions({ onTabChange }) {
       tab: 1,
     },
     {
-      icon: CalculateIcon,
-      label: "Calculate Footprint",
-      description: "Estimate your carbon impact",
-      color: "#4caf50",
-      tab: 3,
+      icon: EmojiEventsIcon,
+      label: "View Badges",
+      description: "Check your achievements",
+      color: "#9c27b0",
+      tab: 2,
     },
     {
       icon: CompareArrowsIcon,
       label: "Compare Countries",
       description: "Analyze emissions side-by-side",
       color: "#ff9800",
-      tab: 5,
+      tab: 3,
     },
     {
-      icon: TrackChangesIcon,
-      label: "Set a Goal",
-      description: "Track your learning progress",
-      color: "#e91e63",
+      icon: SmartToyIcon,
+      label: "AI Assistant",
+      description: "Ask climate questions",
+      color: "#4caf50",
       tab: 4,
     },
   ];
@@ -425,10 +417,7 @@ export default function LearnPage() {
     { icon: SchoolIcon, label: "Overview" },
     { icon: QuizIcon, label: "Quizzes" },
     { icon: EmojiEventsIcon, label: "Badges" },
-    { icon: CalculateIcon, label: "Calculator" },
-    { icon: TrackChangesIcon, label: "Goals" },
     { icon: CompareArrowsIcon, label: "Compare" },
-    { icon: LeaderboardIcon, label: "Leaderboard" },
     { icon: SmartToyIcon, label: "AI Assistant" },
   ];
 
@@ -537,50 +526,88 @@ export default function LearnPage() {
         <Fade in timeout={1200}>
           <Paper
             sx={{
-              borderRadius: 3,
-              mb: 3,
+              borderRadius: 4,
+              mb: 4,
               overflow: "hidden",
-              background: "rgba(255,255,255,0.95)",
-              backdropFilter: "blur(10px)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+              background: "rgba(255,255,255,0.98)",
+              backdropFilter: "blur(20px)",
+              boxShadow: "0 12px 40px rgba(0,0,0,0.12)",
+              border: "1px solid rgba(255,255,255,0.5)",
             }}
           >
             <Tabs
               value={activeTab}
               onChange={(e, newValue) => setActiveTab(newValue)}
-              variant="scrollable"
-              scrollButtons="auto"
+              variant="fullWidth"
               sx={{
-                minHeight: 56,
+                minHeight: 64,
                 "& .MuiTab-root": {
                   fontWeight: 600,
                   textTransform: "none",
-                  fontSize: "0.9rem",
-                  minHeight: 56,
-                  px: 2.5,
-                  gap: 1,
+                  fontSize: "0.95rem",
+                  minHeight: 64,
+                  py: 2,
+                  px: 3,
+                  gap: 1.5,
+                  color: "text.secondary",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  position: "relative",
+                  "&:hover": {
+                    color: "#667eea",
+                    backgroundColor: "rgba(102, 126, 234, 0.04)",
+                  },
+                  "& .MuiSvgIcon-root": {
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  },
+                  "&:hover .MuiSvgIcon-root": {
+                    transform: "scale(1.15)",
+                  },
                 },
                 "& .Mui-selected": {
                   color: "#667eea !important",
+                  fontWeight: 700,
+                  backgroundColor: "rgba(102, 126, 234, 0.08)",
+                  "& .MuiSvgIcon-root": {
+                    color: "#667eea",
+                  },
                 },
                 "& .MuiTabs-indicator": {
                   background:
                     "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                  height: 3,
+                  height: 4,
+                  borderRadius: "4px 4px 0 0",
+                  boxShadow: "0 -2px 10px rgba(102, 126, 234, 0.4)",
                 },
                 "& .MuiTabs-flexContainer": {
-                  gap: 0,
+                  height: "100%",
                 },
               }}
             >
-              {tabs.map((tab, index) => (
-                <Tab
-                  key={tab.label}
-                  icon={<tab.icon sx={{ fontSize: 20 }} />}
-                  label={tab.label}
-                  iconPosition="start"
-                />
-              ))}
+              {tabs.map((tab, index) => {
+                const IconComponent = tab.icon;
+                return (
+                  <Tab
+                    key={tab.label}
+                    icon={
+                      <IconComponent
+                        sx={{
+                          fontSize: 22,
+                          color:
+                            activeTab === index ? "#667eea" : "text.secondary",
+                        }}
+                      />
+                    }
+                    label={tab.label}
+                    iconPosition="start"
+                    sx={{
+                      borderRight:
+                        index < tabs.length - 1
+                          ? "1px solid rgba(0,0,0,0.06)"
+                          : "none",
+                    }}
+                  />
+                );
+              })}
             </Tabs>
           </Paper>
         </Fade>
@@ -619,22 +646,10 @@ export default function LearnPage() {
             </TabPanel>
 
             <TabPanel value={activeTab} index={3}>
-              <CarbonCalculator />
-            </TabPanel>
-
-            <TabPanel value={activeTab} index={4}>
-              <GoalTracker />
-            </TabPanel>
-
-            <TabPanel value={activeTab} index={5}>
               <CountryComparison emissionsData={emissionsData} />
             </TabPanel>
 
-            <TabPanel value={activeTab} index={6}>
-              <Leaderboard />
-            </TabPanel>
-
-            <TabPanel value={activeTab} index={7}>
+            <TabPanel value={activeTab} index={4}>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, md: 7 }}>
                   <ClimateChat emissionsData={emissionsData} />
