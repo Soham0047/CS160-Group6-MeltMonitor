@@ -1,0 +1,76 @@
+{
+  "metrics": [
+    {
+      "id": "co2_total",
+      "term": "Total CO₂ Emissions",
+      "short": "The total amount of carbon dioxide released into the atmosphere from burning fossil fuels (coal, oil, gas) and cement production, measured in gigatonnes (Gt) or megatonnes (Mt).",
+      "long": "Carbon dioxide emissions from fossil fuel combustion and industrial processes are the primary driver of climate change. This includes emissions from energy production, transportation, manufacturing, and buildings. One gigatonne equals one billion metric tonnes.",
+      "unit": "Gt (gigatonnes) or Mt (megatonnes)",
+      "source": "Global Carbon Budget 2024",
+      "sourceUrl": "https://globalcarbonbudget.org/"
+    },
+    {
+      "id": "co2_per_capita",
+      "term": "Per Capita CO₂ Emissions",
+      "short": "The average CO₂ emissions per person in a country, calculated by dividing total emissions by population. Measured in tonnes per person per year.",
+      "long": "Per capita emissions help compare countries fairly regardless of population size. High per-capita emissions often indicate high energy use and consumption. The global average is about 4.7 tonnes per person, but ranges from under 1 tonne in some African nations to over 30 tonnes in oil-producing states.",
+      "unit": "t/person (tonnes per person per year)",
+      "source": "Our World in Data",
+      "sourceUrl": "https://ourworldindata.org/co2-emissions"
+    },
+    {
+      "id": "temperature_anomaly",
+      "term": "Temperature Anomaly",
+      "short": "The difference between the current temperature and a long-term baseline average (usually 1951-1980). Positive values mean warmer than average.",
+      "long": "Scientists use anomalies rather than absolute temperatures because they're more useful for tracking change over time and comparing different locations. The baseline period 1951-1980 represents pre-acceleration of modern warming. Current anomaly is about +1.2°C globally.",
+      "unit": "°C or °F above baseline",
+      "source": "NASA GISTEMP",
+      "sourceUrl": "https://data.giss.nasa.gov/gistemp/"
+    },
+    {
+      "id": "glacier_mass",
+      "term": "Glacier Mass Balance",
+      "short": "The net change in glacier ice mass, measured in meters of water equivalent (m.w.e.). Negative values indicate ice loss.",
+      "long": "Glaciers gain mass through snowfall and lose mass through melting and calving (ice breaking off). When losses exceed gains, glaciers shrink. Since the 1970s, global glaciers have lost over 10 trillion tonnes of ice, contributing to sea level rise.",
+      "unit": "m.w.e. (meters water equivalent)",
+      "source": "World Glacier Monitoring Service (WGMS)",
+      "sourceUrl": "https://wgms.ch/"
+    },
+    {
+      "id": "co2_ppm",
+      "term": "Atmospheric CO₂ Concentration",
+      "short": "The amount of CO₂ in the atmosphere, measured in parts per million (ppm). Pre-industrial levels were ~280 ppm; current levels exceed 420 ppm.",
+      "long": "CO₂ concentration is measured at Mauna Loa Observatory in Hawaii. It follows a seasonal cycle (higher in winter, lower in summer due to plant growth) but the overall trend has been steadily increasing since measurements began in 1958. Levels above 450 ppm are associated with dangerous warming.",
+      "unit": "ppm (parts per million)",
+      "source": "NOAA Global Monitoring Laboratory",
+      "sourceUrl": "https://gml.noaa.gov/ccgg/trends/"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "greenhouse_effect",
+      "term": "Greenhouse Effect",
+      "short": "The process by which certain gases in Earth's atmosphere trap heat from the sun, warming the planet's surface.",
+      "source": "IPCC AR6"
+    },
+    {
+      "id": "carbon_budget",
+      "term": "Carbon Budget",
+      "short": "The maximum amount of CO₂ that can be emitted while still limiting warming to a specific target (e.g., 1.5°C or 2°C).",
+      "source": "IPCC AR6"
+    },
+    {
+      "id": "net_zero",
+      "term": "Net Zero Emissions",
+      "short": "Achieving a balance between CO₂ emitted and CO₂ removed from the atmosphere, typically through a combination of reducing emissions and carbon capture.",
+      "source": "UNFCCC"
+    },
+    {
+      "id": "paris_agreement",
+      "term": "Paris Agreement",
+      "short": "A 2015 international treaty where 196 countries agreed to limit global warming to well below 2°C, preferably 1.5°C, compared to pre-industrial levels.",
+      "source": "UNFCCC",
+      "sourceUrl": "https://unfccc.int/process-and-meetings/the-paris-agreement"
+    }
+  ]
+}

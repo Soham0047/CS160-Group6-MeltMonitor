@@ -17,6 +17,7 @@ import {
   TextField,
   IconButton,
   Collapse,
+  Snackbar,
 } from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
 import PersonIcon from "@mui/icons-material/Person";
@@ -24,6 +25,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { fetchCountriesGeoJSON } from "../../services/mapDataLocal";
+import { SaveViewButton } from "../Learning/SavedViews";
 import {
   fetchAnnualEmissions,
   fetchPerCapitaEmissions,
@@ -99,6 +101,7 @@ export default function WorldMapLocal() {
     perCapita: null,
   });
   const [map, setMap] = useState(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
   const [dataLayer, setDataLayer] = useState(null);
   const [searchValue, setSearchValue] = useState(null);
   const [searchExpanded, setSearchExpanded] = useState(false);
@@ -615,6 +618,36 @@ export default function WorldMapLocal() {
         </Paper>
       </Fade>
 
+      {/* Save View Button */}
+      <Fade in timeout={800}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: 20,
+            right: 20,
+            zIndex: 1000,
+          }}
+        >
+          <SaveViewButton
+            currentState={{
+              metric: metric,
+              year: year,
+              selectedCountry: selected.iso,
+            }}
+            onSave={() => setSaveSuccess(true)}
+          />
+        </Box>
+      </Fade>
+
+      {/* Save Success Snackbar */}
+      <Snackbar
+        open={saveSuccess}
+        autoHideDuration={3000}
+        onClose={() => setSaveSuccess(false)}
+        message="View saved successfully!"
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      />
+
       {/* Country Search */}
       <Fade in timeout={800}>
         <Box
@@ -757,21 +790,24 @@ export default function WorldMapLocal() {
                     }}
                   />
                 )}
-                renderOption={(props, option) => (
-                  <li {...props} key={option.iso}>
-                    <Box>
-                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                        {option.label}
-                      </Typography>
-                      <Typography
-                        variant="caption"
-                        sx={{ color: "text.secondary", fontSize: "0.7rem" }}
-                      >
-                        {option.iso}
-                      </Typography>
-                    </Box>
-                  </li>
-                )}
+                renderOption={(props, option) => {
+                  const { key, ...restProps } = props;
+                  return (
+                    <li key={key} {...restProps}>
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                          {option.label}
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          sx={{ color: "text.secondary", fontSize: "0.7rem" }}
+                        >
+                          {option.iso}
+                        </Typography>
+                      </Box>
+                    </li>
+                  );
+                }}
                 sx={{
                   "& .MuiAutocomplete-popupIndicator": {
                     color: "#667eea",

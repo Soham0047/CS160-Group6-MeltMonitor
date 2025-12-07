@@ -4,11 +4,20 @@ import {
   Typography,
   Box,
   Link as MUILink,
+  Button,
+  Chip,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import MapIcon from "@mui/icons-material/Map";
+import SchoolIcon from "@mui/icons-material/School";
 import InfoOutlined from "@mui/icons-material/InfoOutlined";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const NavItem = ({ to, icon, label, active }) => (
   <MUILink
@@ -44,6 +53,13 @@ const NavItem = ({ to, icon, label, active }) => (
 
 export default function TopBar() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { user, isAuthenticated, isOnline, logout, loading } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
 
   return (
     <AppBar
@@ -104,11 +120,97 @@ export default function TopBar() {
           active={pathname.startsWith("/map")}
         />
         <NavItem
+          to="/learn"
+          icon={<SchoolIcon fontSize="small" />}
+          label="Learn"
+          active={pathname.startsWith("/learn")}
+        />
+        <NavItem
+          to="/profile"
+          icon={<AccountCircle fontSize="small" />}
+          label="Profile"
+          active={pathname.startsWith("/profile")}
+        />
+        <NavItem
           to="/sources"
           icon={<InfoOutlined fontSize="small" />}
           label="Sources"
           active={pathname.startsWith("/sources")}
         />
+
+        {/* Auth Status - improved UI */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, ml: 2 }}>
+          {!isOnline && (
+            <Chip
+              label="⚡ Offline"
+              size="small"
+              sx={{
+                bgcolor: "rgba(255,255,255,0.2)",
+                color: "white",
+              }}
+            />
+          )}
+
+          {!loading &&
+            (isAuthenticated ? (
+              <Tooltip title={`Sign out (${user?.email})`} arrow>
+                <Button
+                  onClick={handleLogout}
+                  variant="contained"
+                  size="small"
+                  startIcon={<LogoutIcon sx={{ fontSize: 18 }} />}
+                  sx={{
+                    background:
+                      "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+                    color: "white",
+                    fontWeight: 600,
+                    px: 2,
+                    py: 0.75,
+                    borderRadius: 2,
+                    textTransform: "none",
+                    boxShadow: "0 2px 8px rgba(239, 68, 68, 0.3)",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)",
+                      boxShadow: "0 4px 12px rgba(239, 68, 68, 0.4)",
+                      transform: "translateY(-1px)",
+                    },
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  LOGOUT
+                </Button>
+              </Tooltip>
+            ) : (
+              <Button
+                component={RouterLink}
+                to="/auth"
+                variant="contained"
+                size="small"
+                startIcon={<LoginIcon sx={{ fontSize: 18 }} />}
+                sx={{
+                  background:
+                    "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                  color: "white",
+                  fontWeight: 600,
+                  px: 2,
+                  py: 0.75,
+                  borderRadius: 2,
+                  textTransform: "none",
+                  boxShadow: "0 2px 8px rgba(16, 185, 129, 0.3)",
+                  "&:hover": {
+                    background:
+                      "linear-gradient(135deg, #059669 0%, #047857 100%)",
+                    boxShadow: "0 4px 12px rgba(16, 185, 129, 0.4)",
+                    transform: "translateY(-1px)",
+                  },
+                  transition: "all 0.2s ease",
+                }}
+              >
+                Sign In
+              </Button>
+            ))}
+        </Box>
       </Toolbar>
     </AppBar>
   );

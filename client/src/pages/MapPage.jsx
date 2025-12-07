@@ -4,6 +4,7 @@ import TimelineIcon from "@mui/icons-material/Timeline";
 import ForestIcon from "@mui/icons-material/Forest";
 import WorldMapLocal from "../components/Map/WorldMapLocal.jsx";
 import CO2PredictionPanel from "../components/Map/CO2PredictionPanel.jsx";
+import GlossaryTooltip from "../components/Learning/GlossaryTooltip.jsx";
 
 console.log("🗺️ MapPage.jsx loaded");
 
@@ -131,6 +132,14 @@ export default function MapPage() {
                   transform: "translateY(-2px)",
                 },
               }}
+            />
+            <GlossaryTooltip
+              termId="co2-emissions"
+              iconColor="rgba(255,255,255,0.9)"
+            />
+            <GlossaryTooltip
+              termId="per-capita-emissions"
+              iconColor="rgba(255,255,255,0.9)"
             />
           </Stack>
 
