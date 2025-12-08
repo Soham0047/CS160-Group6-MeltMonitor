@@ -51,8 +51,6 @@ A comprehensive, open-source climate monitoring dashboard that visualizes global
 | **Study Streaks**       | Track daily learning with streak bonuses  |
 | **Daily Climate Terms** | Learn new vocabulary every day            |
 | **Badge System**        | Earn achievements and milestones          |
-| **Goal Tracker**        | Set and track personalized learning goals |
-| **Carbon Calculator**   | Calculate your personal carbon footprint  |
 | **Country Comparison**  | Compare emissions with 5-year CAGR trends |
 | **Quick Compare**       | Side-by-side country analysis             |
 | **Saved Views**         | Save favorite countries for quick access  |
@@ -358,7 +356,6 @@ MeltMonitor uses **SQLite** for user data storage. The database is automatically
 - `user_preferences` - User settings and preferences
 - `learning_progress` - Quiz progress and XP
 - `badges` - Earned achievements
-- `goals` - Learning goals
 
 The database file (`meltmonitor.db`) is stored in the `server/` directory and is gitignored.
 
