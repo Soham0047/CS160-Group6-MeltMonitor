@@ -115,8 +115,6 @@ MeltMonitor/
 │   │   │   │   ├── StudyStreak.jsx      # Streak tracking & reminders
 │   │   │   │   ├── DailyTerms.jsx       # Daily vocabulary
 │   │   │   │   ├── BadgeSystem.jsx      # Achievement badges
-│   │   │   │   ├── GoalTracker.jsx      # Learning goals
-│   │   │   │   ├── CarbonCalculator.jsx # Footprint calculator
 │   │   │   │   ├── CountryComparison.jsx# Country analysis
 │   │   │   │   ├── SavedViews.jsx       # Saved favorites
 │   │   │   │   └── AIFeatures.jsx       # AI assistant
